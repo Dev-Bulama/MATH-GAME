@@ -2,6 +2,19 @@
 
 A fully accessible, visual-first educational math game built with Python and Streamlit, specifically designed for learners with dyscalculia.
 
+## 🚀 Quick Deploy (One-Click)
+
+Deploy this game instantly to get a public URL you can share:
+
+[![Deploy on Streamlit](https://static.streamlit.io/badges/streamlit_badge_black_white.svg)](https://share.streamlit.io/)
+
+**Alternative Free Platforms:**
+- **Railway:** [Deploy to Railway](https://railway.app/new) → Connect GitHub → Select this repo
+- **Render:** [Deploy to Render](https://render.com/deploy) → Connect GitHub → Select this repo
+- **Fly.io:** [Deploy to Fly.io](https://fly.io/docs/hands-on/install-flyctl/) → `fly launch` in terminal
+
+> **Note:** For Streamlit Cloud (recommended), you'll need to sign in with GitHub, select this repository (`Dev-Bulama/MATH-GAME`), branch (`claude/dyscalculia-math-game-v3Jsi`), and main file (`app.py`).
+
 ## 🌟 Features
 
 ### ✨ Dyscalculia-Optimized Design
