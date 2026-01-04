@@ -1,0 +1,20 @@
+# Streamlit Configuration for Dyscalculia-Friendly Math Game
+# Optimized for accessibility and visual clarity
+
+[theme]
+# High contrast theme for better readability
+primaryColor = "#00cc66"  # Green for positive actions
+backgroundColor = "#FFFFFF"  # White background for clarity
+secondaryBackgroundColor = "#F0F2F6"  # Light gray for containers
+textColor = "#262730"  # Dark text for high contrast
+font = "sans serif"  # Clean, readable font
+
+[server]
+# Deployment settings
+headless = true
+enableCORS = false
+enableXsrfProtection = true
+
+[browser]
+# Improve user experience
+gatherUsageStats = false

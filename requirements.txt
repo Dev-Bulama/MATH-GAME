@@ -1,0 +1,3 @@
+# Python dependencies for Dyscalculia-Friendly Math Game
+
+streamlit>=1.28.0
