@@ -97,6 +97,7 @@ LEVELS = {
     4: {"name": "Simple Subtraction", "icon": "➖", "color": "#FFE66D"},
     5: {"name": "Mixed Operations", "icon": "🔄", "color": "#A8E6CF"},
     6: {"name": "Real-life Math", "icon": "🛒", "color": "#FF8B94"},
+    7: {"name": "Math Racing Game", "icon": "🏎️", "color": "#87CEEB"},
 }
 
 # Badge system for visual rewards
@@ -107,6 +108,7 @@ BADGES = {
     4: "➖ Subtraction Star",
     5: "🔄 Math Mixer",
     6: "🏆 Math Master",
+    7: "🏎️ Racing Champion",
 }
 
 # ============================================================================
@@ -129,6 +131,12 @@ def initialize_session_state():
         st.session_state.questions = []
         st.session_state.game_mode = "menu"  # menu, playing, results
         st.session_state.total_stars = 0
+
+        # Racing game specific state
+        st.session_state.player_position = 0
+        st.session_state.computer_position = 0
+        st.session_state.correct_answers_count = 0
+        st.session_state.race_finished = False
 
 # ============================================================================
 # 🎮 LEVEL CONTENT GENERATORS
@@ -311,6 +319,49 @@ def generate_level_6_questions() -> List[Dict]:
 
     return questions
 
+def generate_level_7_questions() -> List[Dict]:
+    """
+    Level 7: Math Racing Game (Medium Level 1)
+    - True/False format questions
+    - Tests arithmetic skills with division and multiplication
+    - Racing game mechanic for engagement
+    """
+    # Fixed set of questions for Medium Level 1
+    questions = [
+        {
+            "type": "true_false_racing",
+            "question": "12 − 4 = 8",
+            "correct_answer": True
+        },
+        {
+            "type": "true_false_racing",
+            "question": "24 ÷ 2 = 12",
+            "correct_answer": True
+        },
+        {
+            "type": "true_false_racing",
+            "question": "16 × 3 = 45",
+            "correct_answer": False  # Correct is 48
+        },
+        {
+            "type": "true_false_racing",
+            "question": "18 − 15 = 3",
+            "correct_answer": True
+        },
+        {
+            "type": "true_false_racing",
+            "question": "13 + 5 = 13",
+            "correct_answer": False  # Correct is 18
+        },
+        {
+            "type": "true_false_racing",
+            "question": "11 ÷ 2 = 5",
+            "correct_answer": False  # Correct is 5.5
+        }
+    ]
+
+    return questions
+
 # Map levels to their question generators
 LEVEL_GENERATORS = {
     1: generate_level_1_questions,
@@ -319,6 +370,7 @@ LEVEL_GENERATORS = {
     4: generate_level_4_questions,
     5: generate_level_5_questions,
     6: generate_level_6_questions,
+    7: generate_level_7_questions,
 }
 
 # ============================================================================
@@ -334,6 +386,13 @@ def start_level(level_num: int):
     st.session_state.stage_answers = []
     st.session_state.questions = LEVEL_GENERATORS[level_num]()
     st.session_state.game_mode = "playing"
+
+    # Reset racing game state for Level 7
+    if level_num == 7:
+        st.session_state.player_position = 0
+        st.session_state.computer_position = 0
+        st.session_state.correct_answers_count = 0
+        st.session_state.race_finished = False
 
 def submit_answer(user_answer, correct_answer):
     """
@@ -416,7 +475,7 @@ def render_main_menu():
     with col2:
         st.markdown(f"### 🏅 Badges: {len(st.session_state.badges)}")
     with col3:
-        st.markdown(f"### ✅ Completed: {len(st.session_state.completed_levels)}/6")
+        st.markdown(f"### ✅ Completed: {len(st.session_state.completed_levels)}/7")
 
     st.markdown("---")
     st.markdown("## 📚 Choose a Level")
@@ -473,6 +532,11 @@ def render_question():
     Render current question based on type.
     Large, clear display with minimal distractions.
     """
+    # Special handling for Level 7 - Racing Game
+    if st.session_state.current_level == 7:
+        render_racing_game()
+        return
+
     question = st.session_state.questions[st.session_state.current_stage]
     level_info = LEVELS[st.session_state.current_level]
 
@@ -637,6 +701,154 @@ def render_results():
         if st.button("🏠 Back to Menu", use_container_width=True):
             st.session_state.game_mode = "menu"
             st.rerun()
+
+def render_racing_game():
+    """
+    Render the Math Racing Game (Level 7).
+    Features two cars racing, with player car speed controlled by answer correctness.
+    """
+    question = st.session_state.questions[st.session_state.current_stage]
+    level_info = LEVELS[7]
+
+    # Header
+    st.markdown(f"# {level_info['icon']} {level_info['name']}")
+    st.markdown("### 🏁 Race to the finish line by answering correctly!")
+    st.markdown("---")
+
+    # Race track constants
+    TRACK_LENGTH = 100
+    PLAYER_SPEED_CORRECT = 25  # Speed boost for correct answer
+    PLAYER_SPEED_WRONG = 10    # Slower speed for wrong answer
+    COMPUTER_SPEED = 16        # Steady computer speed
+
+    # Check if race is finished
+    if not st.session_state.race_finished:
+        # Display race track
+        st.markdown("### 🏁 Race Track")
+
+        # Calculate positions as percentages
+        player_percent = min(100, (st.session_state.player_position / TRACK_LENGTH) * 100)
+        computer_percent = min(100, (st.session_state.computer_position / TRACK_LENGTH) * 100)
+
+        # Player car track
+        st.markdown("#### 🚗 You:")
+        st.progress(player_percent / 100)
+
+        # Computer car track
+        st.markdown("#### 🤖 Computer:")
+        st.progress(computer_percent / 100)
+
+        st.markdown("---")
+
+        # Progress indicator
+        st.markdown(f"### ✅ Correct Answers: {st.session_state.correct_answers_count} / 5")
+        st.markdown(f"### 📝 Question {st.session_state.current_stage + 1} of {len(st.session_state.questions)}")
+        st.markdown("---")
+
+        # Display question
+        st.markdown(f"## {question['question']}")
+        st.markdown("")
+        st.markdown("### Is this TRUE or FALSE?")
+        st.markdown("")
+
+        # True/False buttons
+        col1, col2 = st.columns(2)
+
+        with col1:
+            if st.button("✅ TRUE", key=f"true_{st.session_state.current_stage}", use_container_width=True):
+                process_racing_answer(True, question["correct_answer"])
+
+        with col2:
+            if st.button("❌ FALSE", key=f"false_{st.session_state.current_stage}", use_container_width=True):
+                process_racing_answer(False, question["correct_answer"])
+
+    else:
+        # Race is finished - show results
+        if st.session_state.correct_answers_count >= 5:
+            # Player won!
+            st.success("## 🎉 YOU WON THE RACE!")
+            st.balloons()
+            st.markdown("### 🏆 Congratulations! You crossed the finish line first!")
+            st.markdown(f"#### You answered {st.session_state.correct_answers_count} questions correctly!")
+
+            # Award badge if first time
+            if 7 not in st.session_state.completed_levels:
+                pass_level(7)
+                st.markdown(f"### 🎖️ Badge Earned: {BADGES[7]}")
+
+                # Unlock next level if exists
+                next_level = 8
+                if next_level <= len(LEVELS):
+                    st.info(f"🔓 **Level {next_level} unlocked!**")
+
+        else:
+            # Computer won
+            st.warning("## 🏁 The computer reached the finish line first!")
+            st.markdown("### 💪 Don't worry! Every race makes you faster!")
+            st.markdown(f"#### You answered {st.session_state.correct_answers_count} questions correctly.")
+            st.markdown("#### Keep practicing and you'll win next time! 🌟")
+
+        st.markdown("---")
+
+        # Action buttons
+        col1, col2 = st.columns(2)
+
+        with col1:
+            if st.button("🔄 Race Again", use_container_width=True):
+                start_level(7)
+                st.rerun()
+
+        with col2:
+            if st.button("🏠 Back to Menu", use_container_width=True):
+                st.session_state.game_mode = "menu"
+                st.rerun()
+
+def process_racing_answer(user_answer: bool, correct_answer: bool):
+    """
+    Process answer in racing game and update car positions.
+    """
+    is_correct = (user_answer == correct_answer)
+
+    # Track answer
+    st.session_state.stage_answers.append({
+        "correct": is_correct,
+        "user_answer": user_answer,
+        "correct_answer": correct_answer
+    })
+
+    # Racing mechanics
+    TRACK_LENGTH = 100
+    PLAYER_SPEED_CORRECT = 25
+    PLAYER_SPEED_WRONG = 10
+    COMPUTER_SPEED = 16
+
+    # Update positions
+    if is_correct:
+        st.session_state.player_position += PLAYER_SPEED_CORRECT
+        st.session_state.correct_answers_count += 1
+    else:
+        st.session_state.player_position += PLAYER_SPEED_WRONG
+
+    st.session_state.computer_position += COMPUTER_SPEED
+
+    # Move to next question
+    st.session_state.current_stage += 1
+
+    # Check win/lose conditions
+    if st.session_state.correct_answers_count >= 5:
+        # Player wins by getting 5 correct answers
+        st.session_state.race_finished = True
+    elif st.session_state.computer_position >= TRACK_LENGTH:
+        # Computer wins by reaching finish line
+        st.session_state.race_finished = True
+    elif st.session_state.current_stage >= len(st.session_state.questions):
+        # All questions answered, check who's ahead
+        if st.session_state.player_position >= st.session_state.computer_position:
+            st.session_state.race_finished = True
+        else:
+            st.session_state.race_finished = True
+
+    st.rerun()
 
 # ============================================================================
 # 🎮 MAIN APPLICATION
