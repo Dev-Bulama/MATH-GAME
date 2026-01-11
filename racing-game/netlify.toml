@@ -1,0 +1,39 @@
+# Netlify Configuration for Math Racing Game
+
+[build]
+  # No build step needed - static site
+  publish = "."
+  command = "echo 'No build required - static HTML'"
+
+[[headers]]
+  # Apply headers to all files
+  for = "/*"
+  [headers.values]
+    # Security headers
+    X-Frame-Options = "DENY"
+    X-Content-Type-Options = "nosniff"
+    X-XSS-Protection = "1; mode=block"
+    Referrer-Policy = "strict-origin-when-cross-origin"
+
+    # Cache control
+    Cache-Control = "public, max-age=31536000, immutable"
+
+[[headers]]
+  # HTML files should not be cached as aggressively
+  for = "/*.html"
+  [headers.values]
+    Cache-Control = "public, max-age=0, must-revalidate"
+
+[[redirects]]
+  # Redirect all paths to index.html for SPA-like behavior
+  from = "/*"
+  to = "/index.html"
+  status = 200
+
+[dev]
+  # Local development server settings
+  command = "npx serve"
+  port = 8000
+  targetPort = 8000
+  publish = "."
+  autoLaunch = true

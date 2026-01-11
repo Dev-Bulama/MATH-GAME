@@ -1,0 +1,189 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>🏎️ Math Racing Game - Learn Math by Racing!</title>
+    <meta name="description" content="A dyscalculia-friendly 3D math racing game where correct answers make your car faster!">
+
+    <!-- Preload Three.js from CDN -->
+    <link rel="preconnect" href="https://cdn.jsdelivr.net">
+
+    <!-- Styles -->
+    <link rel="stylesheet" href="css/styles.css">
+
+    <!-- Prevent zoom on double-tap (mobile) -->
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="mobile-web-app-capable" content="yes">
+</head>
+<body>
+    <!-- Loading Screen -->
+    <div id="loading-screen" class="screen active">
+        <div class="loading-content">
+            <h1>🏎️ Math Racing Game</h1>
+            <div class="loading-spinner"></div>
+            <p>Loading 3D environment...</p>
+            <div class="progress-bar">
+                <div class="progress-fill" id="loading-progress"></div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Main Menu -->
+    <div id="main-menu" class="screen">
+        <div class="menu-content">
+            <h1>🏎️ Math Racing Game</h1>
+            <p class="tagline">Learn Math at the Speed of Fun!</p>
+
+            <div class="stats-container">
+                <div class="stat">
+                    <span class="stat-icon">⭐</span>
+                    <span class="stat-value" id="total-stars">0</span>
+                    <span class="stat-label">Stars</span>
+                </div>
+                <div class="stat">
+                    <span class="stat-icon">🏆</span>
+                    <span class="stat-value" id="total-badges">0</span>
+                    <span class="stat-label">Badges</span>
+                </div>
+                <div class="stat">
+                    <span class="stat-icon">✅</span>
+                    <span class="stat-value" id="completed-levels">0/7</span>
+                    <span class="stat-label">Completed</span>
+                </div>
+            </div>
+
+            <div class="level-select">
+                <h2>Choose Your Track</h2>
+                <div class="levels-grid" id="levels-grid">
+                    <!-- Levels will be dynamically inserted here -->
+                </div>
+            </div>
+
+            <button class="btn-secondary" id="reset-progress">🔄 Reset Progress</button>
+        </div>
+    </div>
+
+    <!-- Game Screen -->
+    <div id="game-screen" class="screen">
+        <!-- 3D Canvas -->
+        <canvas id="game-canvas"></canvas>
+
+        <!-- Game HUD Overlay -->
+        <div class="game-hud">
+            <!-- Top HUD -->
+            <div class="hud-top">
+                <div class="level-info">
+                    <span class="level-icon" id="current-level-icon">🔢</span>
+                    <span class="level-name" id="current-level-name">Level 1</span>
+                </div>
+                <div class="progress-info">
+                    <span id="correct-count">0</span> / <span id="target-correct">5</span> Correct
+                </div>
+            </div>
+
+            <!-- Race Progress Bars -->
+            <div class="race-progress">
+                <div class="car-progress player-progress">
+                    <div class="car-label">
+                        <span class="car-icon">🚗</span>
+                        <span>You</span>
+                    </div>
+                    <div class="progress-track">
+                        <div class="progress-car" id="player-car-progress"></div>
+                    </div>
+                    <div class="progress-percentage" id="player-percentage">0%</div>
+                </div>
+                <div class="car-progress opponent-progress">
+                    <div class="car-label">
+                        <span class="car-icon">🤖</span>
+                        <span>Opponent</span>
+                    </div>
+                    <div class="progress-track">
+                        <div class="progress-car" id="opponent-car-progress"></div>
+                    </div>
+                    <div class="progress-percentage" id="opponent-percentage">0%</div>
+                </div>
+            </div>
+
+            <!-- Question Panel -->
+            <div class="question-panel" id="question-panel">
+                <div class="question-content">
+                    <div class="question-number">Question <span id="question-num">1</span> of <span id="total-questions">5</span></div>
+                    <div class="question-text" id="question-text">12 + 8 = ?</div>
+                    <div class="answer-options" id="answer-options">
+                        <!-- Answer buttons will be inserted here dynamically -->
+                    </div>
+                </div>
+            </div>
+
+            <!-- Mobile Controls -->
+            <div class="mobile-controls" id="mobile-controls">
+                <button class="control-btn" id="brake-btn">
+                    <span>🛑</span>
+                    <span>Brake</span>
+                </button>
+                <button class="control-btn" id="accelerate-btn">
+                    <span>⚡</span>
+                    <span>Gas</span>
+                </button>
+            </div>
+
+            <!-- Pause Button -->
+            <button class="pause-btn" id="pause-btn">⏸️</button>
+        </div>
+    </div>
+
+    <!-- Results Screen -->
+    <div id="results-screen" class="screen">
+        <div class="results-content">
+            <div class="result-icon" id="result-icon">🏆</div>
+            <h1 class="result-title" id="result-title">Victory!</h1>
+            <p class="result-message" id="result-message">You won the race!</p>
+
+            <div class="result-stats">
+                <div class="result-stat">
+                    <span class="result-stat-label">Correct Answers</span>
+                    <span class="result-stat-value" id="final-correct">5</span>
+                </div>
+                <div class="result-stat">
+                    <span class="result-stat-label">Accuracy</span>
+                    <span class="result-stat-value" id="final-accuracy">100%</span>
+                </div>
+                <div class="result-stat">
+                    <span class="result-stat-label">Stars Earned</span>
+                    <span class="result-stat-value" id="stars-earned">⭐⭐⭐</span>
+                </div>
+            </div>
+
+            <div class="badge-earned" id="badge-earned" style="display: none;">
+                <p>🎉 Badge Earned!</p>
+                <div class="badge-display" id="badge-display"></div>
+            </div>
+
+            <div class="result-actions">
+                <button class="btn-primary" id="retry-btn">🔄 Race Again</button>
+                <button class="btn-secondary" id="menu-btn">🏠 Main Menu</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Pause Menu -->
+    <div id="pause-menu" class="modal">
+        <div class="modal-content">
+            <h2>⏸️ Paused</h2>
+            <button class="btn-primary" id="resume-btn">▶️ Resume</button>
+            <button class="btn-secondary" id="quit-btn">🏠 Quit to Menu</button>
+        </div>
+    </div>
+
+    <!-- Libraries -->
+    <script src="https://cdn.jsdelivr.net/npm/three@0.150.0/build/three.min.js"></script>
+
+    <!-- Game Scripts -->
+    <script src="js/levels.js"></script>
+    <script src="js/game-engine.js"></script>
+    <script src="js/ui-controller.js"></script>
+    <script src="js/main.js"></script>
+</body>
+</html>
