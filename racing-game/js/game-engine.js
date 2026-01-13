@@ -59,13 +59,14 @@ class RacingGameEngine {
 
     setupCamera() {
         this.camera = new THREE.PerspectiveCamera(
-            75,
+            60, // Slightly narrower FOV for better depth perception
             window.innerWidth / window.innerHeight,
             0.1,
             1000
         );
-        this.camera.position.set(0, 15, 20);
-        this.camera.lookAt(0, 0, -10);
+        // Chase camera - positioned behind and above the player car
+        this.camera.position.set(0, 8, 18);
+        this.camera.lookAt(0, 0, 0);
     }
 
     setupRenderer() {
@@ -459,9 +460,19 @@ class RacingGameEngine {
             this.playerSpeed = Math.max(0, this.playerSpeed - deltaTime * 0.8);
         }
 
-        // Camera follow
-        this.camera.position.z = this.playerCar.position.z + 20;
-        this.camera.lookAt(0, 0, this.playerCar.position.z - 10);
+        // Chase camera - smooth follow behind player car
+        const cameraOffset = 18; // Distance behind car
+        const cameraHeight = 8; // Height above ground
+        const targetZ = this.playerCar.position.z;
+
+        // Smooth camera movement
+        this.camera.position.z += (targetZ + cameraOffset - this.camera.position.z) * 0.1;
+        this.camera.position.y = cameraHeight;
+        this.camera.position.x = -3; // Slightly offset to match player car lane
+
+        // Look at point ahead of the car
+        const lookAtZ = targetZ - 15;
+        this.camera.lookAt(-3, 1, lookAtZ);
     }
 
     endRace(playerWon) {

@@ -158,41 +158,31 @@ class UIController {
         this.questionNum.textContent = questionNumber;
         this.totalQuestions.textContent = totalQuestions;
 
-        // Update question text
-        if (question.displayNumber) {
-            // Level 1: Number recognition
-            this.questionText.innerHTML = `
-                <div style="font-size: 4rem; margin: 1rem 0;">${question.displayNumber}</div>
-                <div>${question.question}</div>
-            `;
-        } else if (question.objects) {
-            // Level 2: Counting objects
-            this.questionText.innerHTML = `
-                <div style="font-size: 2rem; margin: 1rem 0; line-height: 1.5;">${question.objects}</div>
-                <div>${question.question}</div>
-            `;
-        } else if (question.visual) {
-            // Levels with visual aids
-            this.questionText.innerHTML = `
-                <div style="font-size: 1.5rem; margin: 0.5rem 0;">${question.visual}</div>
-                <div style="font-size: 2rem; margin: 1rem 0;">${question.question}</div>
-            `;
-        } else {
-            // Standard question
-            this.questionText.innerHTML = question.question;
-        }
+        // All questions are now True/False format - simple display
+        this.questionText.innerHTML = question.question;
 
-        // Render answer buttons
+        // Render True/False buttons only
         this.answerOptions.innerHTML = '';
-        question.choices.forEach((choice, index) => {
-            const button = document.createElement('button');
-            button.className = 'answer-btn';
-            button.textContent = choice;
-            button.addEventListener('click', () => {
-                this.handleAnswer(choice, question.correctAnswer);
-            });
-            this.answerOptions.appendChild(button);
+
+        // True button (green)
+        const trueBtn = document.createElement('button');
+        trueBtn.className = 'answer-btn true-btn';
+        trueBtn.textContent = '✓ TRUE';
+        trueBtn.style.background = '#00cc66';
+        trueBtn.addEventListener('click', () => {
+            this.handleAnswer('True', question.correctAnswer);
         });
+        this.answerOptions.appendChild(trueBtn);
+
+        // False button (red)
+        const falseBtn = document.createElement('button');
+        falseBtn.className = 'answer-btn false-btn';
+        falseBtn.textContent = '✗ FALSE';
+        falseBtn.style.background = '#ff6b6b';
+        falseBtn.addEventListener('click', () => {
+            this.handleAnswer('False', question.correctAnswer);
+        });
+        this.answerOptions.appendChild(falseBtn);
 
         // Show question panel
         this.questionPanel.style.display = 'block';

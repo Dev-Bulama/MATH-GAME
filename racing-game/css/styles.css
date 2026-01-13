@@ -444,30 +444,48 @@ body {
 
 .answer-options {
     display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(120px, 1fr));
-    gap: var(--spacing-sm);
+    grid-template-columns: 1fr 1fr; /* Two equal columns for True/False */
+    gap: var(--spacing-md);
 }
 
 .answer-btn {
-    padding: var(--spacing-md);
-    font-size: var(--font-size-lg);
+    padding: var(--spacing-lg);
+    font-size: var(--font-size-xl);
     font-weight: bold;
     background: var(--primary-color);
     color: var(--text-light);
     border: none;
-    border-radius: var(--border-radius);
+    border-radius: var(--border-radius-lg);
     cursor: pointer;
     transition: all 0.3s ease;
-    min-height: 60px;
+    min-height: 80px;
+    text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.3);
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
 }
 
 .answer-btn:hover {
-    background: #00b359;
-    transform: scale(1.05);
+    transform: translateY(-3px) scale(1.02);
+    box-shadow: 0 6px 12px rgba(0, 0, 0, 0.3);
 }
 
 .answer-btn:active {
-    transform: scale(0.95);
+    transform: translateY(0) scale(0.98);
+}
+
+.true-btn {
+    background: linear-gradient(135deg, #00cc66, #00ff88) !important;
+}
+
+.true-btn:hover {
+    background: linear-gradient(135deg, #00b359, #00ee77) !important;
+}
+
+.false-btn {
+    background: linear-gradient(135deg, #ff6b6b, #ff8888) !important;
+}
+
+.false-btn:hover {
+    background: linear-gradient(135deg, #ee5555, #ff7777) !important;
 }
 
 /* Mobile Controls */
