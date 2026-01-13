@@ -1,6 +1,54 @@
-# 🎓 Dyscalculia-Friendly Math Learning Game
+# 🎓 Dyscalculia-Friendly Math Learning Games
 
-A fully accessible, visual-first educational math game built with Python and Streamlit, specifically designed for learners with dyscalculia.
+**Two complete games in one repository!** Both specifically designed for learners with dyscalculia.
+
+## 🎮 Choose Your Game
+
+### 1. 🏎️ **3D Math Racing Game** (NEW!)
+A standalone 3D racing game where **correct answers boost your car's speed**! Built with Three.js, works on all devices.
+
+- ✨ **Full 3D graphics** with realistic cars and tracks
+- 📱 **Mobile-optimized** with touch controls
+- 🎯 **All 7 levels** in racing format
+- 🚀 **Deploy anywhere** (Netlify, Vercel, GitHub Pages)
+- 🆓 **No setup needed** - Pure HTML/CSS/JavaScript
+
+👉 **[Quick Start: 3D Racing Game](#-3d-racing-game)** | **[View Guide](RACING_GAME_GUIDE.md)**
+
+### 2. 📚 **Streamlit Learning Game** (Original)
+A comprehensive educational platform with 7 progressive levels, including a racing game level.
+
+- 🎨 **Streamlit-powered** web interface
+- 📊 **Detailed progress tracking**
+- 🎓 **Educational focus** with visual aids
+- ☁️ **Cloud deploy** (Streamlit, Railway, Render)
+- 🐍 **Python-based**
+
+👉 **[Quick Start: Streamlit Game](#-streamlit-learning-game)**
+
+---
+
+## 📊 Which Game Should I Use?
+
+| Feature | 3D Racing Game | Streamlit Game |
+|---------|----------------|----------------|
+| **Best For** | Public websites, viral sharing | Educational institutions, controlled environments |
+| **Setup** | ✅ Zero setup - just HTML files | ⚙️ Requires Python installation |
+| **Deployment** | ✅ Free (Netlify, Vercel, GitHub Pages) | ⚙️ Streamlit Cloud, Railway, Render |
+| **Mobile** | ✅ Excellent - Touch controls | ✅ Good - Responsive design |
+| **Graphics** | 🎮 3D racing environment | 📚 Clean educational interface |
+| **Engagement** | 🏎️ High - Racing game format | 📊 Moderate - Traditional quiz format |
+| **All Levels** | ✅ Yes - All 7 levels as races | ✅ Yes - All 7 levels + racing level |
+| **Offline** | ✅ Can add PWA support | ❌ Needs server |
+| **Cost** | 💰 Free forever | 💰 Free tier available |
+| **Customization** | 🛠️ Easy - Edit JS files | 🛠️ Easy - Edit Python code |
+| **File Size** | 📦 ~150KB total | 📦 ~50KB + Python dependencies |
+
+**Recommendation:**
+- 🏎️ **Use 3D Racing Game** if you want maximum engagement, mobile experience, and easy deployment
+- 📚 **Use Streamlit Game** if you prefer traditional learning interface or need Python customization
+
+---
 
 ## 🚀 Quick Deploy (One-Click)
 
@@ -35,7 +83,48 @@ Deploy this game instantly to get a public URL you can share:
 - **Visual Rewards** - badges, stars, and celebrations
 - **Progress Tracking** - see your achievements
 
-## 📚 Level Overview
+---
+
+## 🏎️ 3D Racing Game
+
+### Quick Deploy (5 Minutes!)
+
+**Netlify (Recommended):**
+1. Go to [Netlify](https://www.netlify.com/) and sign up
+2. Click "Add new site" → "Import an existing project"
+3. Connect your GitHub repository
+4. Set base directory: `racing-game`
+5. Deploy!
+
+**Local Testing:**
+```bash
+cd racing-game
+python -m http.server 8000
+# Open http://localhost:8000
+```
+
+### Features
+- 🎮 **3D Racing Environment** - Realistic cars, track, and scenery
+- 📱 **Mobile Touch Controls** - Gas and Brake buttons
+- 🎯 **Racing Mechanics** - Correct answers = speed boost
+- 🏆 **7 Progressive Levels** - All math topics in racing format
+- ⭐ **Star System** - Earn 1-3 stars per level
+- 🎖️ **Badges** - Collect rewards for completing levels
+- 💾 **Auto-Save** - Progress saved to browser localStorage
+
+### How to Play
+1. Answer math questions
+2. Correct answer → Your car speeds up 🚀
+3. Wrong answer → Your car slows down (but keeps moving!)
+4. Get 5 correct answers to WIN the race!
+
+📖 **[Full 3D Racing Game Guide →](RACING_GAME_GUIDE.md)**
+
+---
+
+## 📚 Streamlit Learning Game
+
+### Level Overview
 
 1. **🔢 Number Recognition** - Identify numbers with multiple choice
 2. **🍎 Counting Objects** - Count visual objects (emojis)
@@ -43,6 +132,7 @@ Deploy this game instantly to get a public URL you can share:
 4. **➖ Simple Subtraction** - Subtract with visual support
 5. **🔄 Mixed Operations** - Combine addition and subtraction
 6. **🛒 Real-life Math** - Apply math to everyday scenarios
+7. **🏎️ Math Racing Game** - True/False racing challenge
 
 ## 🚀 Quick Start
 
@@ -136,11 +226,24 @@ This game follows evidence-based principles for supporting learners with dyscalc
 ### Project Structure
 ```
 MATH-GAME/
-├── app.py                 # Main application
-├── requirements.txt       # Python dependencies
-├── README.md             # This file
+├── app.py                      # Streamlit main application
+├── requirements.txt            # Python dependencies
+├── README.md                   # This file
+├── RACING_GAME_GUIDE.md       # 3D Racing Game complete guide
 ├── .streamlit/
-│   └── config.toml       # Streamlit configuration
+│   └── config.toml            # Streamlit configuration
+├── racing-game/                # 3D Racing Game (NEW!)
+│   ├── index.html             # Main game page
+│   ├── css/
+│   │   └── styles.css         # Responsive styling
+│   ├── js/
+│   │   ├── levels.js          # All 7 levels
+│   │   ├── game-engine.js     # 3D engine & physics
+│   │   ├── ui-controller.js   # UI management
+│   │   └── main.js            # Initialization
+│   ├── netlify.toml           # Netlify config
+│   ├── vercel.json            # Vercel config
+│   └── README.md              # Racing game docs
 ```
 
 ### Key Components
@@ -222,18 +325,74 @@ If you encounter any issues:
 3. Try clearing browser cache
 4. Restart the Streamlit server
 
+## 🎯 Common Use Cases
+
+### For Teachers
+- **In Classroom**: Use Streamlit game on shared computer
+- **Remote Learning**: Deploy 3D racing game and share link
+- **Homework**: Students can play 3D racing game on phones
+- **Progress Tracking**: Both games track progress automatically
+
+### For Parents
+- **Home Practice**: Install Streamlit game or use deployed 3D racing game
+- **On-the-Go Learning**: 3D racing game works on tablets and phones
+- **Multiple Children**: Each uses their own browser profile
+
+### For Tutors
+- **Session Tool**: Streamlit game for structured lessons
+- **Fun Rewards**: 3D racing game as achievement reward
+- **Mobile Practice**: Share 3D racing game link for home practice
+
 ## 🌈 Future Enhancements
 
 Potential additions:
 - Sound effects (with toggle)
 - Multiple difficulty modes
 - Printable progress reports
-- Multiplayer options
+- Multiplayer racing mode
 - More level types
-- Custom avatars
+- Custom car skins
+- Leaderboards
+- Parent/teacher dashboard
+
+## 🎓 Educational Research
+
+Both games are based on:
+- **Dyscalculia research** - Understanding number processing difficulties
+- **Cognitive load theory** - Reducing mental burden
+- **Visual learning principles** - Supporting multiple learning styles
+- **Gamification research** - Motivation through engagement
+- **Accessibility standards** - WCAG compliance
+
+## 📈 Success Metrics
+
+What makes these games effective:
+- ✅ **Positive Reinforcement**: Encouraging messages only
+- ✅ **Progressive Difficulty**: Build skills gradually
+- ✅ **Immediate Feedback**: Know right away if correct
+- ✅ **Visual Support**: See the math, not just numbers
+- ✅ **No Pressure**: Learn at your own pace
+- ✅ **Achievement System**: Celebrate every success
 
 ---
 
 **Made with ❤️ for accessible learning**
 
-*Remember: Everyone learns at their own pace. This game is a safe, supportive space for building math confidence!*
+*Remember: Everyone learns at their own pace. These games are safe, supportive spaces for building math confidence!*
+
+## 🚀 Get Started Now!
+
+**Want the 3D Racing Game?**
+1. Go to [Netlify](https://www.netlify.com/)
+2. Deploy from this repository (folder: `racing-game`)
+3. Share the URL with learners!
+
+**Want the Streamlit Game?**
+1. Clone this repository
+2. Run `streamlit run app.py`
+3. Or deploy to [Streamlit Cloud](https://streamlit.io/cloud)
+
+**Questions?** Check out:
+- 📖 [3D Racing Game Full Guide](RACING_GAME_GUIDE.md)
+- 📖 [Deployment Instructions](DEPLOYMENT.md)
+- 📖 [Usage Guide](USAGE_GUIDE.md)
