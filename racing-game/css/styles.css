@@ -415,30 +415,32 @@ body {
 /* Question Panel */
 .question-panel {
     position: absolute;
-    bottom: 180px;
+    top: 200px; /* Moved to top area, below progress bars */
     left: 50%;
     transform: translateX(-50%);
     width: 90%;
-    max-width: 600px;
-    background: rgba(255, 255, 255, 0.95);
+    max-width: 500px;
+    background: rgba(255, 255, 255, 0.92);
     backdrop-filter: blur(10px);
     border-radius: var(--border-radius-lg);
-    padding: var(--spacing-lg);
+    padding: var(--spacing-md);
     box-shadow: 0 10px 40px var(--shadow);
+    z-index: 100;
 }
 
 .question-number {
-    font-size: var(--font-size-sm);
+    font-size: var(--font-size-xs);
     color: var(--accent-color);
     font-weight: bold;
-    margin-bottom: var(--spacing-sm);
+    margin-bottom: var(--spacing-xs);
+    text-align: center;
 }
 
 .question-text {
-    font-size: var(--font-size-xl);
+    font-size: var(--font-size-lg);
     font-weight: bold;
     color: var(--text-dark);
-    margin-bottom: var(--spacing-lg);
+    margin-bottom: var(--spacing-md);
     text-align: center;
 }
 
@@ -449,16 +451,16 @@ body {
 }
 
 .answer-btn {
-    padding: var(--spacing-lg);
-    font-size: var(--font-size-xl);
+    padding: var(--spacing-md);
+    font-size: var(--font-size-lg);
     font-weight: bold;
     background: var(--primary-color);
     color: var(--text-light);
     border: none;
-    border-radius: var(--border-radius-lg);
+    border-radius: var(--border-radius);
     cursor: pointer;
     transition: all 0.3s ease;
-    min-height: 80px;
+    min-height: 60px;
     text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.3);
     box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
 }
@@ -701,7 +703,18 @@ body {
     }
 
     .question-panel {
-        bottom: 160px;
+        top: 180px; /* Keep at top on mobile too */
+        max-width: 95%;
+        padding: var(--spacing-sm);
+    }
+
+    .question-text {
+        font-size: var(--font-size-md);
+    }
+
+    .answer-btn {
+        min-height: 50px;
+        font-size: var(--font-size-md);
     }
 
     .race-progress {
@@ -734,12 +747,19 @@ body {
 /* Landscape mode adjustments */
 @media (max-height: 600px) and (orientation: landscape) {
     .question-panel {
-        bottom: 120px;
-        padding: var(--spacing-md);
+        top: 120px; /* Moved to top for better visibility */
+        padding: var(--spacing-sm);
+        max-width: 450px;
     }
 
     .question-text {
-        font-size: var(--font-size-lg);
+        font-size: var(--font-size-md);
+        margin-bottom: var(--spacing-sm);
+    }
+
+    .answer-btn {
+        min-height: 45px;
+        padding: var(--spacing-sm);
     }
 
     .race-progress {
