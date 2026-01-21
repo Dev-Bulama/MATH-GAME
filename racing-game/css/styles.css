@@ -329,10 +329,12 @@ body {
     align-items: center;
     flex-wrap: wrap;
     gap: var(--spacing-sm);
+    z-index: 200;
 }
 
 .level-info,
-.progress-info {
+.progress-info,
+.timer-display {
     background: rgba(0, 0, 0, 0.7);
     backdrop-filter: blur(10px);
     padding: var(--spacing-sm) var(--spacing-md);
@@ -344,23 +346,107 @@ body {
     gap: var(--spacing-xs);
 }
 
-.level-icon {
+.timer-display {
+    font-weight: bold;
+    font-size: var(--font-size-lg);
+}
+
+.timer-icon {
     font-size: var(--font-size-xl);
 }
 
-/* Race Progress */
+/* Question Panel - AT BOTTOM */
+.question-panel {
+    position: absolute;
+    bottom: 190px; /* Above progress bars */
+    left: 50%;
+    transform: translateX(-50%);
+    width: 90%;
+    max-width: 550px;
+    background: rgba(255, 255, 255, 0.95);
+    backdrop-filter: blur(10px);
+    border-radius: var(--border-radius-lg);
+    padding: var(--spacing-md);
+    box-shadow: 0 10px 40px var(--shadow);
+    z-index: 150;
+}
+
+.question-number {
+    font-size: var(--font-size-xs);
+    color: var(--accent-color);
+    font-weight: bold;
+    margin-bottom: var(--spacing-xs);
+    text-align: center;
+}
+
+.question-text {
+    font-size: var(--font-size-lg);
+    font-weight: bold;
+    color: var(--text-dark);
+    margin-bottom: var(--spacing-md);
+    text-align: center;
+}
+
+.answer-options {
+    display: grid;
+    grid-template-columns: 1fr 1fr; /* Two equal columns for True/False */
+    gap: var(--spacing-md);
+}
+
+.answer-btn {
+    padding: var(--spacing-md);
+    font-size: var(--font-size-lg);
+    font-weight: bold;
+    background: var(--primary-color);
+    color: var(--text-light);
+    border: none;
+    border-radius: var(--border-radius);
+    cursor: pointer;
+    transition: all 0.3s ease;
+    min-height: 60px;
+    text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.3);
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+}
+
+.answer-btn:hover {
+    transform: translateY(-3px) scale(1.02);
+    box-shadow: 0 6px 12px rgba(0, 0, 0, 0.3);
+}
+
+.answer-btn:active {
+    transform: translateY(0) scale(0.98);
+}
+
+.true-btn {
+    background: linear-gradient(135deg, #00cc66, #00ff88) !important;
+}
+
+.true-btn:hover {
+    background: linear-gradient(135deg, #00b359, #00ee77) !important;
+}
+
+.false-btn {
+    background: linear-gradient(135deg, #ff6b6b, #ff8888) !important;
+}
+
+.false-btn:hover {
+    background: linear-gradient(135deg, #ee5555, #ff7777) !important;
+}
+
+/* Race Progress Bars - BELOW QUESTION PANEL */
 .race-progress {
     position: absolute;
-    top: 80px;
+    bottom: 80px; /* Above mobile controls */
     left: var(--spacing-md);
     right: var(--spacing-md);
     display: flex;
     flex-direction: column;
     gap: var(--spacing-sm);
+    z-index: 100;
 }
 
 .car-progress {
-    background: rgba(0, 0, 0, 0.7);
+    background: rgba(0, 0, 0, 0.8);
     backdrop-filter: blur(10px);
     padding: var(--spacing-sm) var(--spacing-md);
     border-radius: var(--border-radius);
@@ -396,7 +482,7 @@ body {
     background: linear-gradient(90deg, var(--primary-color), #00ff88);
     border-radius: 12px;
     width: 0%;
-    transition: width 0.5s ease;
+    transition: width 0.3s ease;
     position: relative;
 }
 
@@ -412,82 +498,6 @@ body {
     text-align: right;
 }
 
-/* Question Panel */
-.question-panel {
-    position: absolute;
-    bottom: 180px;
-    left: 50%;
-    transform: translateX(-50%);
-    width: 90%;
-    max-width: 600px;
-    background: rgba(255, 255, 255, 0.95);
-    backdrop-filter: blur(10px);
-    border-radius: var(--border-radius-lg);
-    padding: var(--spacing-lg);
-    box-shadow: 0 10px 40px var(--shadow);
-}
-
-.question-number {
-    font-size: var(--font-size-sm);
-    color: var(--accent-color);
-    font-weight: bold;
-    margin-bottom: var(--spacing-sm);
-}
-
-.question-text {
-    font-size: var(--font-size-xl);
-    font-weight: bold;
-    color: var(--text-dark);
-    margin-bottom: var(--spacing-lg);
-    text-align: center;
-}
-
-.answer-options {
-    display: grid;
-    grid-template-columns: 1fr 1fr; /* Two equal columns for True/False */
-    gap: var(--spacing-md);
-}
-
-.answer-btn {
-    padding: var(--spacing-lg);
-    font-size: var(--font-size-xl);
-    font-weight: bold;
-    background: var(--primary-color);
-    color: var(--text-light);
-    border: none;
-    border-radius: var(--border-radius-lg);
-    cursor: pointer;
-    transition: all 0.3s ease;
-    min-height: 80px;
-    text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.3);
-    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
-}
-
-.answer-btn:hover {
-    transform: translateY(-3px) scale(1.02);
-    box-shadow: 0 6px 12px rgba(0, 0, 0, 0.3);
-}
-
-.answer-btn:active {
-    transform: translateY(0) scale(0.98);
-}
-
-.true-btn {
-    background: linear-gradient(135deg, #00cc66, #00ff88) !important;
-}
-
-.true-btn:hover {
-    background: linear-gradient(135deg, #00b359, #00ee77) !important;
-}
-
-.false-btn {
-    background: linear-gradient(135deg, #ff6b6b, #ff8888) !important;
-}
-
-.false-btn:hover {
-    background: linear-gradient(135deg, #ee5555, #ff7777) !important;
-}
-
 /* Mobile Controls */
 .mobile-controls {
     position: absolute;
@@ -497,6 +507,7 @@ body {
     display: flex;
     justify-content: space-between;
     gap: var(--spacing-md);
+    z-index: 100;
 }
 
 .control-btn {
@@ -544,6 +555,7 @@ body {
     font-size: var(--font-size-xl);
     cursor: pointer;
     transition: all 0.3s ease;
+    z-index: 200;
 }
 
 .pause-btn:hover {
@@ -701,11 +713,22 @@ body {
     }
 
     .question-panel {
-        bottom: 160px;
+        bottom: 175px;
+        max-width: 95%;
+        padding: var(--spacing-sm);
+    }
+
+    .question-text {
+        font-size: var(--font-size-md);
+    }
+
+    .answer-btn {
+        min-height: 50px;
+        font-size: var(--font-size-md);
     }
 
     .race-progress {
-        top: 100px;
+        bottom: 70px;
     }
 
     .levels-grid {
@@ -729,21 +752,33 @@ body {
     .control-btn {
         max-width: none;
     }
+
+    .hud-top {
+        flex-direction: column;
+        align-items: stretch;
+    }
 }
 
 /* Landscape mode adjustments */
 @media (max-height: 600px) and (orientation: landscape) {
     .question-panel {
-        bottom: 120px;
-        padding: var(--spacing-md);
+        bottom: 140px;
+        padding: var(--spacing-sm);
+        max-width: 450px;
     }
 
     .question-text {
-        font-size: var(--font-size-lg);
+        font-size: var(--font-size-md);
+        margin-bottom: var(--spacing-sm);
+    }
+
+    .answer-btn {
+        min-height: 45px;
+        padding: var(--spacing-sm);
     }
 
     .race-progress {
-        top: var(--spacing-md);
+        bottom: 60px;
         font-size: var(--font-size-sm);
     }
 }

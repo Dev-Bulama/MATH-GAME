@@ -22,13 +22,23 @@ class RacingGameEngine {
         this.currentQuestionIndex = 0;
         this.correctAnswers = 0;
 
-        // Racing physics
+        // Racing physics - TIME-BASED RACE (70 seconds)
         this.playerPosition = 0;
         this.opponentPosition = 0;
         this.playerSpeed = 0;
-        this.opponentSpeed = 0.3; // Constant opponent speed
         this.trackLength = 100;
-        this.targetCorrectAnswers = 5;
+        this.targetCorrectAnswers = 6; // Need 6+ correct to win
+
+        // Race timer
+        this.raceTimer = 0;
+        this.maxRaceTime = 70; // 70 seconds total
+        this.raceStartTime = 0;
+
+        // Speed constants
+        this.basePlayerSpeed = 2.5; // Player moves faster when answering correctly
+        this.computerSpeed = 1.43; // Computer completes in exactly 70 seconds (100/70)
+        this.speedBoostCorrect = 4.0; // Speed boost for correct answer
+        this.speedBoostWrong = 0.8; // Slow speed for wrong answer
 
         // Controls
         this.keys = {
@@ -344,9 +354,13 @@ class RacingGameEngine {
         this.correctAnswers = 0;
         this.playerPosition = 0;
         this.opponentPosition = 0;
-        this.playerSpeed = 0;
+        this.playerSpeed = this.basePlayerSpeed; // Start with base speed
         this.isRacing = true;
         this.isPaused = false;
+
+        // Initialize race timer
+        this.raceTimer = 0;
+        this.raceStartTime = Date.now();
 
         // Reset car positions
         this.playerCar.position.z = 10;
@@ -371,21 +385,26 @@ class RacingGameEngine {
 
         if (isCorrect) {
             this.correctAnswers++;
-            this.playerSpeed = 1.2; // Speed boost for correct answer
+            this.playerSpeed = this.speedBoostCorrect; // Speed boost for correct answer
             this.showFeedback('Correct! Speed Boost! 🚀', true);
         } else {
-            this.playerSpeed = 0.4; // Slower for wrong answer
-            this.showFeedback('Try your best! Keep racing! 💪', false);
+            this.playerSpeed = this.speedBoostWrong; // Slower for wrong answer
+            this.showFeedback('Keep trying! Keep racing! 💪', false);
         }
 
         this.currentQuestionIndex++;
 
         // Show next question after delay
         setTimeout(() => {
+            // Check win conditions
             if (this.correctAnswers >= this.targetCorrectAnswers) {
-                this.endRace(true);
+                this.endRace(true); // Player wins with 6+ correct
+            } else if (this.raceTimer >= this.maxRaceTime) {
+                this.endRace(false); // Time's up - computer wins
             } else if (this.opponentPosition >= this.trackLength) {
-                this.endRace(false);
+                this.endRace(false); // Computer reached finish
+            } else if (this.playerPosition >= this.trackLength) {
+                this.endRace(true); // Player reached finish
             } else {
                 this.showNextQuestion();
             }
@@ -402,15 +421,20 @@ class RacingGameEngine {
     update(deltaTime) {
         if (!this.isRacing || this.isPaused) return;
 
-        // Update positions
-        this.playerPosition += this.playerSpeed * deltaTime;
-        this.opponentPosition += this.opponentSpeed * deltaTime;
+        // Update race timer
+        this.raceTimer = (Date.now() - this.raceStartTime) / 1000; // Convert to seconds
 
-        // Clamp positions
+        // Computer car moves at constant speed (completes in 70 seconds)
+        this.opponentPosition += this.computerSpeed * deltaTime;
+
+        // Player car moves at current speed (adjusted by answers)
+        this.playerPosition += this.playerSpeed * deltaTime;
+
+        // Clamp positions to track length
         this.playerPosition = Math.min(this.playerPosition, this.trackLength);
         this.opponentPosition = Math.min(this.opponentPosition, this.trackLength);
 
-        // Update car Z positions
+        // Update car Z positions on track
         const maxZ = -120; // Finish line
         const startZ = 10;
         const range = startZ - maxZ;
@@ -427,37 +451,32 @@ class RacingGameEngine {
             });
             this.opponentCar.children.forEach((child, i) => {
                 if (i >= 2 && i <= 5) { // Wheels
-                    child.rotation.x -= this.opponentSpeed * deltaTime * 2;
+                    child.rotation.x -= this.computerSpeed * deltaTime * 2;
                 }
             });
         }
 
-        // Update UI
+        // Update UI with progress and timer
         if (window.uiController) {
             window.uiController.updateRaceProgress(
                 (this.playerPosition / this.trackLength) * 100,
                 (this.opponentPosition / this.trackLength) * 100,
                 this.correctAnswers,
-                this.targetCorrectAnswers
+                this.targetCorrectAnswers,
+                this.raceTimer,
+                this.maxRaceTime
             );
         }
 
         // Check win/lose conditions
         if (this.correctAnswers >= this.targetCorrectAnswers) {
-            this.endRace(true);
+            this.endRace(true); // Won with 6+ correct answers
+        } else if (this.raceTimer >= this.maxRaceTime) {
+            this.endRace(false); // Time's up!
         } else if (this.opponentPosition >= this.trackLength) {
-            this.endRace(false);
-        }
-
-        // Gradually reduce player speed
-        this.playerSpeed = Math.max(0, this.playerSpeed - deltaTime * 0.3);
-
-        // Apply controls
-        if (this.keys.accelerate) {
-            this.playerSpeed = Math.min(this.playerSpeed + deltaTime * 0.5, 1.5);
-        }
-        if (this.keys.brake) {
-            this.playerSpeed = Math.max(0, this.playerSpeed - deltaTime * 0.8);
+            this.endRace(false); // Computer finished first
+        } else if (this.playerPosition >= this.trackLength) {
+            this.endRace(true); // Player finished first
         }
 
         // Chase camera - smooth follow behind player car
