@@ -127,6 +127,8 @@ body {
     background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
     overflow-y: auto;
     padding: var(--spacing-md);
+    align-items: flex-start; /* Start from top instead of center */
+    padding-top: var(--spacing-xl); /* Add top padding */
 }
 
 .menu-content {
@@ -134,6 +136,7 @@ body {
     max-width: 900px;
     text-align: center;
     color: var(--text-light);
+    padding-bottom: var(--spacing-xl); /* Ensure bottom content is scrollable */
 }
 
 .menu-content h1 {
@@ -355,55 +358,56 @@ body {
     font-size: var(--font-size-xl);
 }
 
-/* Question Panel - AT BOTTOM */
+/* Question Panel - COMPACT AT BOTTOM */
 .question-panel {
     position: absolute;
-    bottom: 190px; /* Above progress bars */
+    bottom: 95px; /* Just above progress bars */
     left: 50%;
     transform: translateX(-50%);
-    width: 90%;
-    max-width: 550px;
-    background: rgba(255, 255, 255, 0.95);
+    width: 85%;
+    max-width: 500px;
+    background: rgba(255, 255, 255, 0.92);
     backdrop-filter: blur(10px);
-    border-radius: var(--border-radius-lg);
-    padding: var(--spacing-md);
-    box-shadow: 0 10px 40px var(--shadow);
+    border-radius: 15px;
+    padding: 12px 15px; /* More compact padding */
+    box-shadow: 0 8px 25px var(--shadow);
     z-index: 150;
 }
 
 .question-number {
-    font-size: var(--font-size-xs);
+    font-size: 0.75rem; /* Smaller */
     color: var(--accent-color);
     font-weight: bold;
-    margin-bottom: var(--spacing-xs);
+    margin-bottom: 6px; /* Compact spacing */
     text-align: center;
 }
 
 .question-text {
-    font-size: var(--font-size-lg);
+    font-size: 1.15rem; /* Smaller but still readable */
     font-weight: bold;
     color: var(--text-dark);
-    margin-bottom: var(--spacing-md);
+    margin-bottom: 10px; /* Compact spacing */
     text-align: center;
+    line-height: 1.3; /* Tighter line height */
 }
 
 .answer-options {
     display: grid;
     grid-template-columns: 1fr 1fr; /* Two equal columns for True/False */
-    gap: var(--spacing-md);
+    gap: 10px; /* Compact gap */
 }
 
 .answer-btn {
-    padding: var(--spacing-md);
-    font-size: var(--font-size-lg);
+    padding: 10px 15px; /* More compact */
+    font-size: 1.1rem; /* Smaller */
     font-weight: bold;
     background: var(--primary-color);
     color: var(--text-light);
     border: none;
-    border-radius: var(--border-radius);
+    border-radius: 10px;
     cursor: pointer;
     transition: all 0.3s ease;
-    min-height: 60px;
+    min-height: 45px; /* Smaller height */
     text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.3);
     box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
 }
@@ -713,18 +717,18 @@ body {
     }
 
     .question-panel {
-        bottom: 175px;
+        bottom: 90px; /* Adjusted for mobile */
         max-width: 95%;
-        padding: var(--spacing-sm);
+        padding: 10px 12px; /* Compact padding */
     }
 
     .question-text {
-        font-size: var(--font-size-md);
+        font-size: 1.05rem; /* Smaller on mobile */
     }
 
     .answer-btn {
-        min-height: 50px;
-        font-size: var(--font-size-md);
+        min-height: 42px; /* Compact */
+        font-size: 1rem;
     }
 
     .race-progress {
@@ -762,19 +766,20 @@ body {
 /* Landscape mode adjustments */
 @media (max-height: 600px) and (orientation: landscape) {
     .question-panel {
-        bottom: 140px;
-        padding: var(--spacing-sm);
+        bottom: 85px; /* Compact for landscape */
+        padding: 8px 12px; /* Very compact */
         max-width: 450px;
     }
 
     .question-text {
-        font-size: var(--font-size-md);
-        margin-bottom: var(--spacing-sm);
+        font-size: 1rem; /* Smaller in landscape */
+        margin-bottom: 8px; /* Tight spacing */
     }
 
     .answer-btn {
-        min-height: 45px;
-        padding: var(--spacing-sm);
+        min-height: 38px; /* Very compact */
+        padding: 8px 12px;
+        font-size: 0.95rem;
     }
 
     .race-progress {
