@@ -202,13 +202,26 @@ class UIController {
         this.gameEngine.answerQuestion(userAnswer, correctAnswer);
     }
 
-    updateRaceProgress(playerPercent, opponentPercent, correctCount, targetCorrect) {
+    updateRaceProgress(playerPercent, opponentPercent, correctCount, targetCorrect, raceTimer, maxRaceTime) {
         document.getElementById('player-car-progress').style.width = `${playerPercent}%`;
         document.getElementById('opponent-car-progress').style.width = `${opponentPercent}%`;
         document.getElementById('player-percentage').textContent = `${Math.round(playerPercent)}%`;
         document.getElementById('opponent-percentage').textContent = `${Math.round(opponentPercent)}%`;
         document.getElementById('correct-count').textContent = correctCount;
         document.getElementById('target-correct').textContent = targetCorrect;
+
+        // Update timer display
+        const timeLeft = Math.max(0, maxRaceTime - raceTimer);
+        const timerElement = document.getElementById('race-timer');
+        if (timerElement) {
+            timerElement.textContent = `${Math.ceil(timeLeft)}s`;
+            // Change color when time is running out
+            if (timeLeft <= 10) {
+                timerElement.style.color = '#ff6b6b';
+            } else {
+                timerElement.style.color = '#ffffff';
+            }
+        }
     }
 
     showFeedback(message, isCorrect) {

@@ -77,12 +77,27 @@
                     <span class="level-icon" id="current-level-icon">🔢</span>
                     <span class="level-name" id="current-level-name">Level 1</span>
                 </div>
+                <div class="timer-display">
+                    <span class="timer-icon">⏱️</span>
+                    <span id="race-timer">70s</span>
+                </div>
                 <div class="progress-info">
-                    <span id="correct-count">0</span> / <span id="target-correct">5</span> Correct
+                    <span id="correct-count">0</span> / <span id="target-correct">6</span> Correct
                 </div>
             </div>
 
-            <!-- Race Progress Bars -->
+            <!-- Question Panel - MOVED TO BOTTOM -->
+            <div class="question-panel" id="question-panel">
+                <div class="question-content">
+                    <div class="question-number">Question <span id="question-num">1</span> of <span id="total-questions">5</span></div>
+                    <div class="question-text" id="question-text">12 + 8 = ?</div>
+                    <div class="answer-options" id="answer-options">
+                        <!-- Answer buttons will be inserted here dynamically -->
+                    </div>
+                </div>
+            </div>
+
+            <!-- Race Progress Bars - BELOW QUESTION PANEL -->
             <div class="race-progress">
                 <div class="car-progress player-progress">
                     <div class="car-label">
@@ -103,17 +118,6 @@
                         <div class="progress-car" id="opponent-car-progress"></div>
                     </div>
                     <div class="progress-percentage" id="opponent-percentage">0%</div>
-                </div>
-            </div>
-
-            <!-- Question Panel -->
-            <div class="question-panel" id="question-panel">
-                <div class="question-content">
-                    <div class="question-number">Question <span id="question-num">1</span> of <span id="total-questions">5</span></div>
-                    <div class="question-text" id="question-text">12 + 8 = ?</div>
-                    <div class="answer-options" id="answer-options">
-                        <!-- Answer buttons will be inserted here dynamically -->
-                    </div>
                 </div>
             </div>
 
