@@ -991,3 +991,16 @@ button:focus,
         font-size: 1rem;
     }
 }
+
+/* Additional scrolling fixes for main menu */
+#main-menu .menu-content {
+    margin: 0 auto;
+}
+
+#main-menu .level-select {
+    margin-bottom: 2rem;
+}
+
+#main-menu .levels-grid {
+    padding-bottom: 2rem;
+}
