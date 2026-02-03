@@ -10,7 +10,7 @@ const GAME_LEVELS = {
         color: "#FF6B6B",
         description: "True or False number facts",
         badge: "🥉 Number Novice",
-        questionCount: 5,
+        questionCount: 8,
         questionGenerator: function() {
             const questions = [];
             for (let i = 0; i < this.questionCount; i++) {
@@ -46,7 +46,7 @@ const GAME_LEVELS = {
         color: "#4ECDC4",
         description: "True or False counting",
         badge: "🍎 Counting Champion",
-        questionCount: 5,
+        questionCount: 8,
         questionGenerator: function() {
             const questions = [];
 
@@ -72,7 +72,7 @@ const GAME_LEVELS = {
         color: "#95E1D3",
         description: "True or False addition",
         badge: "➕ Addition Ace",
-        questionCount: 5,
+        questionCount: 8,
         questionGenerator: function() {
             const questions = [];
 
@@ -101,7 +101,7 @@ const GAME_LEVELS = {
         color: "#FFE66D",
         description: "True or False subtraction",
         badge: "➖ Subtraction Star",
-        questionCount: 5,
+        questionCount: 9,
         questionGenerator: function() {
             const questions = [];
 
@@ -130,7 +130,7 @@ const GAME_LEVELS = {
         color: "#A8E6CF",
         description: "True or False mixed math",
         badge: "🔄 Math Mixer",
-        questionCount: 5,
+        questionCount: 9,
         questionGenerator: function() {
             const questions = [];
 
@@ -168,7 +168,7 @@ const GAME_LEVELS = {
         color: "#FF8B94",
         description: "True or False × and ÷",
         badge: "🏆 Math Master",
-        questionCount: 5,
+        questionCount: 9,
         questionGenerator: function() {
             const questions = [];
 
@@ -206,7 +206,7 @@ const GAME_LEVELS = {
         color: "#87CEEB",
         description: "True/False advanced math",
         badge: "🏎️ Racing Champion",
-        questionCount: 6,
+        questionCount: 10,
         questionGenerator: function() {
             const questions = [
                 {
