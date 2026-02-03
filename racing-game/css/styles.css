@@ -128,6 +128,9 @@ body {
 
 #welcome-screen {
     background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+    overflow-y: auto;
+    align-items: flex-start; /* Prevent centering that cuts off content */
+    padding: var(--spacing-lg) 0;
 }
 
 .welcome-content {
@@ -135,11 +138,13 @@ body {
     color: var(--text-light);
     max-width: 700px;
     padding: var(--spacing-lg);
+    padding-bottom: var(--spacing-xl); /* Extra padding at bottom */
+    margin: 0 auto; /* Center horizontally */
 }
 
 .welcome-title {
-    font-size: 4rem;
-    margin-bottom: var(--spacing-md);
+    font-size: 3rem;
+    margin-bottom: var(--spacing-sm);
     text-shadow: 3px 3px 6px var(--shadow);
     animation: bounce 2s ease infinite;
 }
@@ -150,26 +155,26 @@ body {
 }
 
 .welcome-tagline {
-    font-size: var(--font-size-xl);
-    margin-bottom: var(--spacing-xl);
+    font-size: var(--font-size-lg);
+    margin-bottom: var(--spacing-lg);
     opacity: 0.95;
 }
 
 .welcome-features {
     display: flex;
     flex-direction: column;
-    gap: var(--spacing-lg);
-    margin: var(--spacing-xl) 0;
+    gap: var(--spacing-md);
+    margin: var(--spacing-lg) 0;
 }
 
 .feature {
     background: rgba(255, 255, 255, 0.15);
     backdrop-filter: blur(10px);
-    padding: var(--spacing-lg);
-    border-radius: var(--border-radius-lg);
+    padding: var(--spacing-md);
+    border-radius: var(--border-radius);
     display: flex;
     align-items: center;
-    gap: var(--spacing-md);
+    gap: var(--spacing-sm);
     transition: transform 0.3s ease, background 0.3s ease;
 }
 
@@ -179,11 +184,11 @@ body {
 }
 
 .feature-icon {
-    font-size: 3rem;
+    font-size: 2.5rem;
 }
 
 .feature p {
-    font-size: var(--font-size-lg);
+    font-size: var(--font-size-md);
     margin: 0;
     text-align: left;
 }
@@ -191,13 +196,13 @@ body {
 .btn-start {
     background: linear-gradient(135deg, #00cc66 0%, #00aa55 100%);
     color: var(--text-light);
-    font-size: var(--font-size-xl);
+    font-size: var(--font-size-lg);
     font-weight: bold;
-    padding: var(--spacing-lg) var(--spacing-xl);
+    padding: var(--spacing-md) var(--spacing-lg);
     border: none;
     border-radius: var(--border-radius-lg);
     cursor: pointer;
-    margin-top: var(--spacing-xl);
+    margin-top: var(--spacing-lg);
     box-shadow: 0 8px 20px rgba(0, 0, 0, 0.3);
     transition: transform 0.2s ease, box-shadow 0.2s ease;
     animation: pulse 2s ease infinite;
@@ -219,7 +224,8 @@ body {
 }
 
 .sound-controls {
-    margin-top: var(--spacing-xl);
+    margin-top: var(--spacing-lg);
+    margin-bottom: var(--spacing-lg); /* Ensure bottom spacing */
 }
 
 .btn-sound {
