@@ -4,12 +4,14 @@
  */
 
 class UIController {
-    constructor(gameEngine, progressManager) {
+    constructor(gameEngine, progressManager, soundManager) {
         this.gameEngine = gameEngine;
         this.progressManager = progressManager;
+        this.soundManager = soundManager;
 
         // Screens
         this.loadingScreen = document.getElementById('loading-screen');
+        this.welcomeScreen = document.getElementById('welcome-screen');
         this.mainMenu = document.getElementById('main-menu');
         this.gameScreen = document.getElementById('game-screen');
         this.resultsScreen = document.getElementById('results-screen');
@@ -29,13 +31,46 @@ class UIController {
 
     init() {
         this.setupMenuButtons();
+        this.setupWelcomeScreen();
         this.renderLevelSelect();
         this.updateStats();
 
         // Simulate loading
         setTimeout(() => {
-            this.showMainMenu();
+            this.showWelcomeScreen();
         }, 1500);
+    }
+
+    setupWelcomeScreen() {
+        // Start game button
+        document.getElementById('start-game-btn')?.addEventListener('click', () => {
+            if (this.soundManager) {
+                this.soundManager.playClickSound();
+            }
+            this.showMainMenu();
+        });
+
+        // Sound toggle button
+        document.getElementById('toggle-sound-btn')?.addEventListener('click', () => {
+            if (this.soundManager) {
+                const isMuted = this.soundManager.toggleMute();
+                const soundIcon = document.getElementById('sound-icon');
+                const soundLabel = document.getElementById('sound-label');
+
+                if (isMuted) {
+                    soundIcon.textContent = '🔇';
+                    soundLabel.textContent = 'Sound OFF';
+                } else {
+                    soundIcon.textContent = '🔊';
+                    soundLabel.textContent = 'Sound ON';
+                    this.soundManager.playClickSound();
+                }
+            }
+        });
+    }
+
+    showWelcomeScreen() {
+        this.showScreen(this.welcomeScreen);
     }
 
     setupMenuButtons() {
@@ -146,6 +181,11 @@ class UIController {
         document.getElementById('current-level-icon').textContent = level.icon;
         document.getElementById('current-level-name').textContent = level.name;
 
+        // Play start sound
+        if (this.soundManager) {
+            this.soundManager.playStartSound();
+        }
+
         // Show game screen
         this.showScreen(this.gameScreen);
 
@@ -192,6 +232,17 @@ class UIController {
         // Disable buttons to prevent multiple clicks
         const buttons = this.answerOptions.querySelectorAll('.answer-btn');
         buttons.forEach(btn => btn.disabled = true);
+
+        // Play sound based on correctness
+        const isCorrect = String(userAnswer) === String(correctAnswer);
+        if (this.soundManager) {
+            if (isCorrect) {
+                this.soundManager.playCorrectSound();
+                this.soundManager.playSpeedBoostSound();
+            } else {
+                this.soundManager.playWrongSound();
+            }
+        }
 
         // Hide question panel
         setTimeout(() => {
@@ -258,6 +309,15 @@ class UIController {
         const badgeEarned = document.getElementById('badge-earned');
         const badgeDisplay = document.getElementById('badge-display');
 
+        // Play victory or defeat sound
+        if (this.soundManager) {
+            if (playerWon) {
+                this.soundManager.playVictorySound();
+            } else {
+                this.soundManager.playDefeatSound();
+            }
+        }
+
         if (playerWon) {
             resultIcon.textContent = '🏆';
             resultTitle.textContent = 'Victory!';
@@ -321,13 +381,13 @@ class UIController {
 
     showScreen(screen) {
         // Hide all screens
-        [this.loadingScreen, this.mainMenu, this.gameScreen, this.resultsScreen].forEach(s => {
-            s.classList.remove('active');
+        [this.loadingScreen, this.welcomeScreen, this.mainMenu, this.gameScreen, this.resultsScreen].forEach(s => {
+            if (s) s.classList.remove('active');
         });
 
         // Show target screen
         setTimeout(() => {
-            screen.classList.add('active');
+            if (screen) screen.classList.add('active');
         }, 50);
     }
 }

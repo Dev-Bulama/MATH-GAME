@@ -34,11 +34,11 @@ class RacingGameEngine {
         this.maxRaceTime = 70; // 70 seconds total
         this.raceStartTime = 0;
 
-        // Speed constants
-        this.basePlayerSpeed = 2.5; // Player moves faster when answering correctly
-        this.computerSpeed = 1.43; // Computer completes in exactly 70 seconds (100/70)
-        this.speedBoostCorrect = 4.0; // Speed boost for correct answer
-        this.speedBoostWrong = 0.8; // Slow speed for wrong answer
+        // Speed constants - INCREASED FOR MORE EXCITING GAMEPLAY
+        this.basePlayerSpeed = 4.0; // Base speed (was 2.5)
+        this.computerSpeed = 2.2; // Computer speed (was 1.43)
+        this.speedBoostCorrect = 7.0; // Speed boost for correct answer (was 4.0)
+        this.speedBoostWrong = 1.5; // Slow speed for wrong answer (was 0.8)
 
         // Controls
         this.keys = {
@@ -166,8 +166,36 @@ class RacingGameEngine {
         rightBarrier.castShadow = true;
         trackGroup.add(rightBarrier);
 
-        // Finish line
-        const finishGeometry = new THREE.PlaneGeometry(12, 2);
+        // START LINE - Green checkered pattern
+        const startGeometry = new THREE.PlaneGeometry(12, 3);
+        const startMaterial = new THREE.MeshLambertMaterial({
+            color: 0x00FF00,
+            side: THREE.DoubleSide
+        });
+        const startLine = new THREE.Mesh(startGeometry, startMaterial);
+        startLine.rotation.x = -Math.PI / 2;
+        startLine.position.y = 0.02;
+        startLine.position.z = 12;
+        trackGroup.add(startLine);
+
+        // START checkered pattern
+        for (let i = 0; i < 12; i++) {
+            const checkSize = 1;
+            const checkGeometry = new THREE.PlaneGeometry(checkSize, checkSize);
+            const checkMaterial = new THREE.MeshLambertMaterial({
+                color: i % 2 === 0 ? 0x00CC00 : 0xFFFFFF,
+                side: THREE.DoubleSide
+            });
+            const check = new THREE.Mesh(checkGeometry, checkMaterial);
+            check.rotation.x = -Math.PI / 2;
+            check.position.y = 0.03;
+            check.position.x = (i % 4 - 1.5) * 3;
+            check.position.z = 12 + Math.floor(i / 4) * checkSize;
+            trackGroup.add(check);
+        }
+
+        // FINISH LINE - Classic black/white checkered pattern
+        const finishGeometry = new THREE.PlaneGeometry(12, 3);
         const finishMaterial = new THREE.MeshLambertMaterial({
             color: 0xFFFFFF,
             side: THREE.DoubleSide
@@ -178,8 +206,8 @@ class RacingGameEngine {
         finish.position.z = -120;
         trackGroup.add(finish);
 
-        // Checkered pattern on finish
-        for (let i = 0; i < 6; i++) {
+        // FINISH checkered pattern
+        for (let i = 0; i < 12; i++) {
             const checkSize = 1;
             const checkGeometry = new THREE.PlaneGeometry(checkSize, checkSize);
             const checkMaterial = new THREE.MeshLambertMaterial({
@@ -189,9 +217,35 @@ class RacingGameEngine {
             const check = new THREE.Mesh(checkGeometry, checkMaterial);
             check.rotation.x = -Math.PI / 2;
             check.position.y = 0.03;
-            check.position.x = (i % 3 - 1) * 2;
-            check.position.z = -120 + Math.floor(i / 3) * checkSize;
+            check.position.x = (i % 4 - 1.5) * 3;
+            check.position.z = -120 + Math.floor(i / 4) * checkSize;
             trackGroup.add(check);
+        }
+
+        // START/FINISH banners
+        const startBannerGeo = new THREE.PlaneGeometry(10, 2);
+        const startBannerMat = new THREE.MeshLambertMaterial({ color: 0x00FF00, side: THREE.DoubleSide });
+        const startBanner = new THREE.Mesh(startBannerGeo, startBannerMat);
+        startBanner.position.set(0, 4, 12);
+        trackGroup.add(startBanner);
+
+        const finishBannerGeo = new THREE.PlaneGeometry(10, 2);
+        const finishBannerMat = new THREE.MeshLambertMaterial({ color: 0xFF0000, side: THREE.DoubleSide });
+        const finishBanner = new THREE.Mesh(finishBannerGeo, finishBannerMat);
+        finishBanner.position.set(0, 4, -120);
+        trackGroup.add(finishBanner);
+
+        // Banner supports
+        for (let side of [-5, 5]) {
+            const poleGeo = new THREE.CylinderGeometry(0.2, 0.2, 4, 8);
+            const poleMat = new THREE.MeshLambertMaterial({ color: 0xFFFFFF });
+            const startPole = new THREE.Mesh(poleGeo, poleMat);
+            startPole.position.set(side, 2, 12);
+            trackGroup.add(startPole);
+
+            const finishPole = new THREE.Mesh(poleGeo, poleMat);
+            finishPole.position.set(side, 2, -120);
+            trackGroup.add(finishPole);
         }
 
         // Trees/scenery along the track
