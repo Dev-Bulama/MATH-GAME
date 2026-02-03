@@ -7,6 +7,7 @@
 let gameEngine;
 let progressManager;
 let uiController;
+let soundManager;
 
 // Initialize game on page load
 window.addEventListener('DOMContentLoaded', () => {
@@ -28,14 +29,16 @@ function initGame() {
 
     // Initialize game components
     try {
+        soundManager = new SoundManager();
         progressManager = new ProgressManager();
         gameEngine = new RacingGameEngine();
-        uiController = new UIController(gameEngine, progressManager);
+        uiController = new UIController(gameEngine, progressManager, soundManager);
 
         // Make available globally for cross-component communication
         window.gameEngine = gameEngine;
         window.progressManager = progressManager;
         window.uiController = uiController;
+        window.soundManager = soundManager;
 
         console.log('✅ Game initialized successfully!');
     } catch (error) {

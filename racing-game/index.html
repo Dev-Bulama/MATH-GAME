@@ -29,6 +29,40 @@
         </div>
     </div>
 
+    <!-- Welcome Screen -->
+    <div id="welcome-screen" class="screen">
+        <div class="welcome-content">
+            <h1 class="welcome-title">🏎️ Math Racing Game</h1>
+            <p class="welcome-tagline">Race to Learn, Learn to Race!</p>
+
+            <div class="welcome-features">
+                <div class="feature">
+                    <span class="feature-icon">⚡</span>
+                    <p>Answer questions to speed up your car!</p>
+                </div>
+                <div class="feature">
+                    <span class="feature-icon">🏁</span>
+                    <p>Race against the computer to the finish line!</p>
+                </div>
+                <div class="feature">
+                    <span class="feature-icon">⭐</span>
+                    <p>Earn stars and unlock all levels!</p>
+                </div>
+            </div>
+
+            <button class="btn-start" id="start-game-btn">
+                🏁 START RACING
+            </button>
+
+            <div class="sound-controls">
+                <button class="btn-sound" id="toggle-sound-btn">
+                    <span id="sound-icon">🔊</span>
+                    <span id="sound-label">Sound ON</span>
+                </button>
+            </div>
+        </div>
+    </div>
+
     <!-- Main Menu -->
     <div id="main-menu" class="screen">
         <div class="menu-content">
@@ -185,6 +219,7 @@
     <script src="https://cdn.jsdelivr.net/npm/three@0.150.0/build/three.min.js"></script>
 
     <!-- Game Scripts -->
+    <script src="js/sounds.js"></script>
     <script src="js/levels.js"></script>
     <script src="js/game-engine.js"></script>
     <script src="js/ui-controller.js"></script>

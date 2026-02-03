@@ -278,7 +278,8 @@ class ProgressManager {
     }
 
     isLevelUnlocked(levelNum) {
-        return this.data.unlockedLevels.includes(levelNum);
+        // All levels unlocked for free play
+        return levelNum >= 1 && levelNum <= 7;
     }
 
     isLevelCompleted(levelNum) {
