@@ -22,23 +22,23 @@ class RacingGameEngine {
         this.currentQuestionIndex = 0;
         this.correctAnswers = 0;
 
-        // Racing physics - TIME-BASED RACE (70 seconds)
+        // Racing physics - BALANCED COMPETITIVE RACE
         this.playerPosition = 0;
         this.opponentPosition = 0;
         this.playerSpeed = 0;
-        this.trackLength = 100;
+        this.trackLength = 150; // Increased from 100 for longer race
         this.targetCorrectAnswers = 6; // Need 6+ correct to win
 
         // Race timer
         this.raceTimer = 0;
-        this.maxRaceTime = 70; // 70 seconds total
+        this.maxRaceTime = 90; // Increased to 90 seconds for longer race
         this.raceStartTime = 0;
 
-        // Speed constants - INCREASED FOR MORE EXCITING GAMEPLAY
-        this.basePlayerSpeed = 4.0; // Base speed (was 2.5)
-        this.computerSpeed = 2.2; // Computer speed (was 1.43)
-        this.speedBoostCorrect = 7.0; // Speed boost for correct answer (was 4.0)
-        this.speedBoostWrong = 1.5; // Slow speed for wrong answer (was 0.8)
+        // Speed constants - BALANCED for competitive racing
+        this.basePlayerSpeed = 2.5; // Same as computer (neutral)
+        this.computerSpeed = 2.5; // Computer finishes in 60 seconds (150/2.5)
+        this.speedBoostCorrect = 3.5; // Speed boost for correct answer (FASTER than computer)
+        this.speedBoostWrong = 1.8; // Slow speed for wrong answer (SLOWER than computer)
 
         // Controls
         this.keys = {
